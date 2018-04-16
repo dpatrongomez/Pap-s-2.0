@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
@@ -14,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
 import static android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE;
 
 public class MainActivity extends AppCompatActivity {

@@ -3,9 +3,9 @@ package es.dpatrongomez.papas;
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,10 +14,12 @@ import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
         papas.loadUrl("https://papas.jccm.es/");
         papas.getSettings().setJavaScriptEnabled(true);
         papas.getSettings().setSupportZoom(true);
+        papas.getSettings().setUseWideViewPort(true);
         papas.getSettings().setAllowContentAccess(true);
         papas.getSettings().setAppCacheEnabled(true);
+        papas.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         papas.getSettings().setDomStorageEnabled(true);
         papas.getSettings().setAllowFileAccess(true);
+        papas.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         papas.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         papas.setWebViewClient(new WebViewClient());
         papas.setWebChromeClient(new WebChromeClient() {
@@ -54,50 +59,53 @@ public class MainActivity extends AppCompatActivity {
                     carga.setVisibility(ProgressBar.GONE);
                 }
             }
+
         });
-       /* papas.setDownloadListener(new DownloadListener() {
+        papas.setDownloadListener(new DownloadListener()
+        {
 
             @Override
+
+
             public void onDownloadStart(String url, String userAgent,
-                                        String contentDisposition, String mimetype,
+                                        String contentDisposition, String mimeType,
                                         long contentLength) {
-                try {
-                    DownloadManager.Request request = new DownloadManager.Request(
-                            Uri.parse(url));
 
-                    String cookies = CookieManager.getInstance().getCookie(url);
-                    request.addRequestHeader("cookie", cookies);
+                DownloadManager.Request request = new DownloadManager.Request(
+                        Uri.parse(url));
 
-                    request.allowScanningByMediaScanner();
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                    final String filename = URLUtil.guessFileName(url, contentDisposition, mimetype);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-                    DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                    dm.enqueue(request);
-                    Toast.makeText(getApplicationContext(), "Downloading File",Toast.LENGTH_LONG).show();
-                }
-                catch(SecurityException e)
-                {
-                    Toast.makeText(getApplicationContext(),"Please grant the storage permission !",Toast.LENGTH_LONG).show();
-                }
 
-            }
-        }); */
-        /*papas.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                DownloadManager.Request solicitud = new DownloadManager.Request(Uri.parse(url));
+                request.setMimeType(mimeType);
+
+
                 String cookies = CookieManager.getInstance().getCookie(url);
-                solicitud.addRequestHeader("cookie", cookies);
-                solicitud.allowScanningByMediaScanner();
-                solicitud.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-                DownloadManager gestor = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                gestor.enqueue(solicitud);
 
-                Toast.makeText(MainActivity.this, "Descargando...",Toast.LENGTH_SHORT).show();
-            }
-        });*/
+                request.addRequestHeader("cookie", cookies);
+
+
+                request.addRequestHeader("User-Agent", userAgent);
+
+
+                request.setDescription("Downloading file...");
+
+
+                request.setTitle(URLUtil.guessFileName(url, contentDisposition,
+                        mimeType));
+
+
+                request.allowScanningByMediaScanner();
+
+
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalFilesDir(MainActivity.this,
+                        Environment.DIRECTORY_DOWNLOADS,".pdf");
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(request);
+                Toast.makeText(getApplicationContext(), "Descargando archivo",
+                        Toast.LENGTH_LONG).show();
+            }});
+
     }
 
     @Override
@@ -119,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.info:
                 Intent intent = new Intent(this, Info.class);
                 startActivity(intent);
+                break;
+            case R.id.donacion:
+                Uri paypal = Uri.parse("https://paypal.me/dpatrongomez");
+                Intent donacion = new Intent(Intent.ACTION_VIEW, paypal);
+                startActivity(donacion);
                 break;
         }
         return super.onOptionsItemSelected(item);

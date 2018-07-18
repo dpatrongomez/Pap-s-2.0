@@ -17,4 +17,9 @@
     <item
         android:id="@+id/info"
         android:title="@string/informaci_n" />
+    <item
+        android:id="@+id/donacion"
+        android:title="@string/donacion"
+        android:icon="@drawable/ic_euro_symbol_black_24dp"
+        app:showAsAction="ifRoom" />
 </menu>

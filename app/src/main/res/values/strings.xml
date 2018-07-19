@@ -4,4 +4,6 @@
     <string name="informaci_n">Información</string>
     <string name="anterior">Anterior</string>
     <string name="donacion">Donaciones</string>
+    <string name="descargando">Descargando archivo</string>
+    <string name="erroravanzar">No puedes ir hacia delante</string>
 </resources>

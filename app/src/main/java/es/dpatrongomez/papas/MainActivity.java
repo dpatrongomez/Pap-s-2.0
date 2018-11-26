@@ -1,13 +1,18 @@
 package es.dpatrongomez.papas;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,29 +68,30 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        papas.setDownloadListener(new DownloadListener(){
+        papas.setDownloadListener(new DownloadListener() {
             @Override
-            public void onDownloadStart(String url,String userAgent,
-                                        String contentDisposition,String mimeType,
-                                        long contentLength){
-                DownloadManager.Request request=new DownloadManager.Request(
-                        Uri.parse(url));
-                request.setMimeType(mimeType);
-                String cookies= CookieManager.getInstance().getCookie(url);
-                request.addRequestHeader("cookie",cookies);
-                request.addRequestHeader("User-Agent",userAgent);
-                request.setDescription("Descargando...");
-                request.setTitle(URLUtil.guessFileName(url,contentDisposition,
-                        mimeType));
-                request.allowScanningByMediaScanner();
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(
-                        Environment.DIRECTORY_DOWNLOADS,URLUtil.guessFileName(
-                                url,contentDisposition,mimeType));
-                DownloadManager dm=(DownloadManager)getSystemService(DOWNLOAD_SERVICE);
-                dm.enqueue(request);
-                Toast.makeText(getApplicationContext(),"Descargando",
-                        Toast.LENGTH_LONG).show();}
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+
+                if(!check_permission(1)){
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},2);
+                }else {
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+                    request.setMimeType(mimeType);
+                    String cookies = CookieManager.getInstance().getCookie(url);
+                    request.addRequestHeader("cookie", cookies);
+                    request.addRequestHeader("User-Agent", userAgent);
+                    request.setDescription(getString(R.string.dl_downloading));
+                    request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType));
+                    request.allowScanningByMediaScanner();
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
+                    DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                    assert dm != null;
+                    dm.enqueue(request);
+                    Toast.makeText(getApplicationContext(), getString(R.string.dl_downloading2), Toast.LENGTH_LONG).show();
+                }
+            }
         });
 
 
@@ -151,5 +157,17 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show();
 
         }
+    }
+    //Checking if particular permission is given or not
+    public boolean check_permission(int permission){
+        switch(permission){
+            case 1:
+                return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+
+            case 2:
+                return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+
+        }
+        return false;
     }
 }

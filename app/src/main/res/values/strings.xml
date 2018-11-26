@@ -6,4 +6,6 @@
     <string name="donacion">Donaciones</string>
     <string name="descargando">Descargando archivo</string>
     <string name="erroravanzar">No puedes ir hacia delante</string>
+    <string name="dl_downloading">Descargando Archivo…</string>
+    <string name="dl_downloading2">Descargando Archivo</string>
 </resources>

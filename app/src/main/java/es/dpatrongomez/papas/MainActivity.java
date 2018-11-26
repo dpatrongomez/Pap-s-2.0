@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         papas.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         papas.setWebViewClient(new WebViewClient());
         papas.setWebChromeClient(new WebChromeClient() {
+
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);

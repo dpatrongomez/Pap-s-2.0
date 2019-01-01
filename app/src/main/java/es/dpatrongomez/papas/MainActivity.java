@@ -75,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
                 if(!check_permission(1)){
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},2);
                 }else {
+                    //String urlParseada="";
+                   // String contentParseado=contentDisposition.substring(0,contentDisposition.length()-2);
+
+                     //   urlParseada=url.substring(0,url.length()-1);
+
+                    //Toast.makeText(getApplicationContext(),url, Toast.LENGTH_LONG).show();
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
                     request.setMimeType(mimeType);

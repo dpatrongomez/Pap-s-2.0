@@ -12,7 +12,7 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        int SPLASH_TIME_OUT =1000;
+        int SPLASH_TIME_OUT =500;
         new Handler().postDelayed(new Runnable() {
 
             /*

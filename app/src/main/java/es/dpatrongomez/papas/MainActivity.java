@@ -27,6 +27,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         if (papas.canGoForward()) {
             papas.goForward();
         } else {
-            Toast.makeText(this, R.string.erroravanzar, Toast.LENGTH_SHORT).show();
+            Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), R.string.erroravanzar, Snackbar.LENGTH_LONG).show();
         }
     }
 

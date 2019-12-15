@@ -55,7 +55,21 @@ public class MainActivity extends AppCompatActivity {
         papas.getSettings().setDomStorageEnabled(true);
         papas.getSettings().setAllowFileAccess(true);
         papas.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        papas.setWebViewClient(new WebViewClient());
+        papas.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+
+                String usuario="";
+                String password="";
+                super.onPageFinished(view, url);
+                papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
+                papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
+//                papas.loadUrl("javascript: var x = document.getElementsByType('submit')[1].click();");
+                papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
+                System.out.println(url);
+
+            }
+        });
         papas.setWebChromeClient(new WebChromeClient() {
 
             @Override
@@ -69,7 +83,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+
+
         });
+
+
+
         papas.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
@@ -102,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
@@ -111,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

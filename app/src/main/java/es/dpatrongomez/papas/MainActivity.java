@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
 
-                String usuario="";
-                String password="";
+                String usuario = getIntent().getStringExtra("user");
+                String password = getIntent().getStringExtra("password");
                 super.onPageFinished(view, url);
                 papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
                 papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");

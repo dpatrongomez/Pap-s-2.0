@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressBar carga;
     WebView papas;
-    String usuario, password;
+    String usuario, password, url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +48,18 @@ public class MainActivity extends AppCompatActivity {
 
         usuario = extras.getString("user");
         password = extras.getString("password");
+        url = extras.getString("url");
+
+        if (url == null) {
+            url = "https://papas.jccm.es/";
+        }
 
         carga = findViewById(R.id.carga);
         papas = findViewById(R.id.papas);
 
         carga.setMax(100);
 
-        papas.loadUrl("https://papas.jccm.es/");
+        papas.loadUrl(url);
         papas.getSettings().setJavaScriptEnabled(true);
         papas.getSettings().setSupportZoom(true);
         papas.getSettings().setUseWideViewPort(true);
@@ -68,10 +73,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
 
-                super.onPageFinished(view, url);
-                papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
-                papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
-                papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
+
+                if (usuario != null && password != null) {
+                    super.onPageFinished(view, url);
+                    papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
+                    papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
+                    papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
+                }
+
+
             }
         });
         papas.setWebChromeClient(new WebChromeClient() {
@@ -174,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
+                    ActivityCompat.finishAffinity(MainActivity.this);
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -6,7 +6,7 @@ android {
         applicationId "es.dpatrongomez.papas"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 8
+        versionCode 9
         versionName "1.5.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,11 +35,19 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressBar carga;
     WebView papas;
+    String usuario, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+
+
+        usuario = extras.getString("user");
+        password = extras.getString("password");
 
         carga = findViewById(R.id.carga);
         papas = findViewById(R.id.papas);
@@ -59,15 +68,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
 
-                String usuario = getIntent().getStringExtra("user");
-                String password = getIntent().getStringExtra("password");
                 super.onPageFinished(view, url);
                 papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
                 papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
-//                papas.loadUrl("javascript: var x = document.getElementsByType('submit')[1].click();");
                 papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
-                System.out.println(url);
-
             }
         });
         papas.setWebChromeClient(new WebChromeClient() {
@@ -84,22 +88,20 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
         });
-
 
 
         papas.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
 
-                if(!check_permission(1)){
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},2);
-                }else {
+                if (!check_permission(1)) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+                } else {
                     //String urlParseada="";
-                   // String contentParseado=contentDisposition.substring(0,contentDisposition.length()-2);
+                    // String contentParseado=contentDisposition.substring(0,contentDisposition.length()-2);
 
-                     //   urlParseada=url.substring(0,url.length()-1);
+                    //   urlParseada=url.substring(0,url.length()-1);
 
                     //Toast.makeText(getApplicationContext(),url, Toast.LENGTH_LONG).show();
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void onForwardPressed() {
         if (papas.canGoForward()) {
             papas.goForward();
@@ -185,9 +188,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     //Checking if particular permission is given or not
-    public boolean check_permission(int permission){
-        switch(permission){
+    public boolean check_permission(int permission) {
+        switch (permission) {
             case 1:
                 return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
 

@@ -9,4 +9,5 @@
     <string name="dl_downloading">Descargando Archivo…</string>
     <string name="dl_downloading2">Descargando Archivo</string>
     <string name="error_campos_vacios">Debes introducir un valor en los campos</string>
+    <string name="cerrarSesion">Cerrar Sesión</string>
 </resources>

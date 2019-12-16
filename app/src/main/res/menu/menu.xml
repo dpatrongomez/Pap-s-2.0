@@ -21,4 +21,8 @@
         android:id="@+id/donacion"
         android:title="@string/donacion"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/cerrarSesion"
+        android:title="@string/cerrarSesion"
+        app:showAsAction="ifRoom" />
 </menu>

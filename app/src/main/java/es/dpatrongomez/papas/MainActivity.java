@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
                     papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
                     papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
                 }
-
-
             }
         });
         papas.setWebChromeClient(new WebChromeClient() {
@@ -160,6 +158,10 @@ public class MainActivity extends AppCompatActivity {
                 Uri paypal = Uri.parse("https://paypal.me/dpatrongomez");
                 Intent donacion = new Intent(Intent.ACTION_VIEW, paypal);
                 startActivity(donacion);
+                break;
+            case R.id.cerrarSesion:
+                url = "https://papas.jccm.es/accesopapas/j_spring_cas_security_logout";
+                papas.loadUrl(url);
                 break;
         }
         return super.onOptionsItemSelected(item);

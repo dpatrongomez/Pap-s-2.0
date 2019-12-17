@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
@@ -168,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.cerrarSesion:
                 url = "https://ssopapas.jccm.es/ssopapas/logout";
                 papas.loadUrl(url);
+                CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(this);
+                cookieSyncMngr.startSync();
+                CookieManager cookieManager=CookieManager.getInstance();
+                cookieManager.removeAllCookie();
+                cookieManager.removeSessionCookie();
+                cookieSyncMngr.stopSync();
+                cookieSyncMngr.sync();
                 break;
         }
         return super.onOptionsItemSelected(item);

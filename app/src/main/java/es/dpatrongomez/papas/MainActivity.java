@@ -73,12 +73,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
 
-
                 if (usuario != null && password != null) {
                     super.onPageFinished(view, url);
                     papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
                     papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
                     papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
+                }
+
+
+                if (papas.getUrl().toString().contains("logout")) {
+                    Intent i = new Intent(MainActivity.this, Login.class);
+                    startActivity(i);
+                    finish();
                 }
             }
         });
@@ -160,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(donacion);
                 break;
             case R.id.cerrarSesion:
-                url = "https://papas.jccm.es/accesopapas/j_spring_cas_security_logout";
+                url = "https://ssopapas.jccm.es/ssopapas/logout";
                 papas.loadUrl(url);
                 break;
         }

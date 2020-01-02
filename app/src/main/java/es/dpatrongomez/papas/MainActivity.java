@@ -31,12 +31,16 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import es.dpatrongomez.papas.modelo.UserData;
+
 
 public class MainActivity extends AppCompatActivity {
 
     ProgressBar carga;
     WebView papas;
-    String usuario, password, url;
+    UserData datos;
+    String url;
+    CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
 
 
-        usuario = extras.getString("user");
-        password = extras.getString("password");
+        datos = (UserData) extras.get("datos");
+
+        System.out.println(datos);
         url = extras.getString("url");
 
         if (url == null) {
@@ -74,13 +79,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
 
-                if (usuario != null && password != null) {
+                if (datos.getUser() != null && datos.getPassword() != null) {
                     super.onPageFinished(view, url);
-                    papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + usuario + "';");
-                    papas.loadUrl("javascript: var uselessvar=document.querySelector('input[type=\"password\"]').value ='" + password + "';");
+                    papas.loadUrl("javascript: var usuario=document.querySelector('input[id=\"username\"]').value ='" + datos.getUser() + "';");
+                    papas.loadUrl("javascript: var password=document.querySelector('input[type=\"password\"]').value ='" + datos.getPassword() + "';");
                     papas.loadUrl("javascript: var x = document.querySelector('input[type=\"submit\"]').click();");
-                }
+                    datos.setUser(null);
+                    datos.setPassword(null);
 
+                }
 
                 if (papas.getUrl().toString().contains("logout")) {
                     Intent i = new Intent(MainActivity.this, Login.class);
@@ -169,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.cerrarSesion:
                 url = "https://ssopapas.jccm.es/ssopapas/logout";
                 papas.loadUrl(url);
-                CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(this);
+
                 cookieSyncMngr.startSync();
                 CookieManager cookieManager=CookieManager.getInstance();
                 cookieManager.removeAllCookie();

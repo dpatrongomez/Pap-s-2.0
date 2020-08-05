@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Documentos-GitHub-Papas-2.0.iml" filepath="$PROJECT_DIR$/.idea/modules/Documentos-GitHub-Papas-2.0.iml" group="Papas-2.0" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Documentos-GitHub-Papas-2.0-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Documentos-GitHub-Papas-2.0-app.iml" group="Papas-2.0/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Documents-GitHub-Papas-2.0.iml" filepath="$PROJECT_DIR$/.idea/modules/Documents-GitHub-Papas-2.0.iml" group="Papas-2.0" />
       <module fileurl="file://$PROJECT_DIR$/GitHub-Papas-2.0.iml" filepath="$PROJECT_DIR$/GitHub-Papas-2.0.iml" group="Papas-2.0" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/GitHub-Papas-2.0-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/GitHub-Papas-2.0-app.iml" group="Papas-2.0/app" />
